@@ -21,3 +21,6 @@ $RECYCLE.BIN/
 # =========================
 # Operating System Files
 # =========================
+compile.txt
+music/output.txt
+music/vgm_process.txt
