@@ -1,4 +1,4 @@
-@echo on
+@echo off
 rem| POP-BEEB audio compile script
 rem| @simondotm
 

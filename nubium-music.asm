@@ -2,8 +2,8 @@ CPU 1
 
 _ENABLE_LOOP = TRUE
 
-VGM_ROM_SLOT = 4
-VGM_DATA_ADDR = &A000
+VGM_ROM_SLOT = 4        ; defaults
+VGM_DATA_ADDR = &A000   ; defaults
 EXO_buffer = &900
 EXO_table = &A00
 
@@ -11,7 +11,7 @@ MACRO SELECT_BANK
 {
     LDA &F4
     PHA
-    LDA #VGM_ROM_SLOT
+    LDA vgm_data_bank   ;#VGM_ROM_SLOT
     STA &F4
     STA &FE30
 }
@@ -27,8 +27,13 @@ ENDMACRO
 
 ORG &90
 
-INCLUDE "exomiser.h.asm"
+.vgm_data_addr      SKIP 2
+.vgm_data_bank      SKIP 1
+
 INCLUDE "vgmplayer.h.asm"
+INCLUDE "exomiser.h.asm"
+
+.loop_pause         SKIP 1
 
 ORG &2A00
 
@@ -42,10 +47,12 @@ ORG &2A00
 .music_init
 {
     SELECT_BANK
-    LDX #LO(VGM_DATA_ADDR)
-    LDY #HI(VGM_DATA_ADDR)
+    LDX vgm_data_addr       ;#LO(VGM_DATA_ADDR)
+    LDY vgm_data_addr+1     ;#HI(VGM_DATA_ADDR)
     JSR vgm_init_stream
     RESTORE_BANK
+
+    STZ loop_pause
     
     SEI
     LDA &220
@@ -107,6 +114,15 @@ ORG &2A00
     LDA vgm_player_ended
     BEQ still_playing
 
+    LDX loop_pause
+    BNE pause_running
+
+    LDX #50        ; 1 second pause before loop
+    .pause_running
+    DEX
+    STX loop_pause
+    BNE still_playing
+
     \\ Reboot our player
     LDX #LO(VGM_DATA_ADDR)
     LDY #HI(VGM_DATA_ADDR)
@@ -134,4 +150,5 @@ INCLUDE "vgmplayer.asm"
 
 SAVE "PLAYER", start, end, init
 
-PUTFILE "music/Sonic The Hedgehog - 16 - Marble Zone (unused).raw.exo", "MUSIC", &A000, 0
+;PUTFILE "music/Sonic The Hedgehog - 16 - Marble Zone (unused).raw.exo", "MUSIC", &A000, 0
+PUTFILE "music/Wonder Boy III - 08 - Mind of Hero.raw.exo", "MUSIC", &A000, 0
