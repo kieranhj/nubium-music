@@ -24,8 +24,8 @@ rem|-------------------------------------------------------------------------
 
 rem|---- compile the music ----
 
-for %%x in (*.vgm) do vgmconverter.py "%%x" -n -t bbc -q 50 -r "%%~nx.raw" >>vgm_process.txt
-for %%x in (*.raw) do exomizer.exe raw -c -m 256 "%%x" -o "%%~nx.raw.exo" >>vgm_process.txt
+for %%x in (vgm\*.vgm) do vgmconverter.py "%%x" -n -t bbc -q 50 -r "%%~nx.raw" >>vgm_process.txt
+for %%x in (*.raw) do exomizer.exe raw -c -m 256 "%%x" -o "exo\%%~nx.raw.exo" >>vgm_process.txt
 del *.raw
 
 rem pause

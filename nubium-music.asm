@@ -151,4 +151,4 @@ INCLUDE "vgmplayer.asm"
 SAVE "PLAYER", start, end, init
 
 ;PUTFILE "music/Sonic The Hedgehog - 16 - Marble Zone (unused).raw.exo", "MUSIC", &A000, 0
-PUTFILE "music/Wonder Boy III - 08 - Mind of Hero.raw.exo", "MUSIC", &A000, 0
+PUTFILE "music/exo/BotB 4406 sonic_enters_a_dance_club.raw.exo", "MUSIC", &A000, 0
