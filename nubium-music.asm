@@ -29,6 +29,7 @@ ORG &90
 
 .vgm_data_addr      SKIP 2
 .vgm_data_bank      SKIP 1
+.vgm_loop_count     SKIP 1
 
 INCLUDE "vgmplayer.h.asm"
 INCLUDE "exomiser.h.asm"
@@ -52,8 +53,9 @@ ORG &2A00
     JSR vgm_init_stream
     RESTORE_BANK
 
-    STZ loop_pause
-    
+    LDA #0
+    STA loop_pause
+
     SEI
     LDA &220
     STA old_eventv+1
@@ -117,15 +119,17 @@ ORG &2A00
     LDX loop_pause
     BNE pause_running
 
-    LDX #50        ; 1 second pause before loop
+    LDX vgm_loop_count      ; N vsyncs before loop
+    BEQ still_playing       ; 0=don't loop
+
     .pause_running
     DEX
     STX loop_pause
     BNE still_playing
 
     \\ Reboot our player
-    LDX #LO(VGM_DATA_ADDR)
-    LDY #HI(VGM_DATA_ADDR)
+    LDX vgm_data_addr       ;#LO(VGM_DATA_ADDR)
+    LDY vgm_data_addr+1     ;#HI(VGM_DATA_ADDR)
     JSR vgm_init_stream
 
     .still_playing

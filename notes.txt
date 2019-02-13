@@ -1,0 +1,40 @@
+Hi Kieran,
+
+
+I have integrated several Lemmings tunes into Planet Nubium. The latest .ssd file with the game is attached to this e-mail.
+
+The game loads six tunes into sideways RAM, playing "Lemmings - 20 - Failure" during the “GAME OVER” routine and "Lemmings - 19 - Success" after Level 32 has been completed. During game play the game cycles through Ronda Alla Turca, Dance of the Reed-Flutes, Miniature Overture, and Dance Of The Four Little Swans, playing one tune per level and cycling through the complete set every four levels. The game also uses Dance of the Reed-Flutes as the loading music. SWRAM now contains about 14k of music files!
+
+I think that there is an issue with the code in ‘PLAYER’. At the end of each tune instead of cycling back to the beginning of the tune the computer attempts to play whatever is at memory location &A000 – which could be garbage or a different tune. Could you take a look at this?
+
+There is still some work to do on my code as the machine crashes quite often. I think this is because of a shortage of main memory for the BASIC stack. Hopefully converting more code from BASIC to Assembler which can be placed in SWRAM will fix this.
+
+
+Best wishes,
+
+
+Andrew.
+
+
+Hi Kieran,
+ 
+ 
+The idea of using music ripped from ‘Lemmings’ was an inspired one.
+ 
+My current plan for the next version of ‘Planet Nubium’ is to store six tunes from ‘Lemmings‘ in SWRAM, shown in the list below. This will take some rearrangement of the code and bitmaps already in SWRAM, but everything should fit! I imported the .EXO files for each of these tunes to the .SSD file attached to this e-mail, along with a BASIC program “tune” that will play them. I plan to play ‘Failure’ when writing ‘GAME OVER’ on the screen and ‘Success’ after the final level (level 32) has been completed. The other four tunes will be played during game play, playing one tune per level and cycling thought all four tunes every four levels. I will also use Mozart’s ‘Ronda Alla Turca’ as the loading music.
+ 
+      Lemmings - 12 - Ronda Alla Turca ( .EXO File : LERATEX )
+      Lemmings - 10 - Dance of the Reed-Flutes ( .EXO File : LEDRFMM )
+      Lemmings - 15 - Miniature Overture ( .EXO File : LEMOMMI )
+      Lemmings - 06 - Dance Of The Four Little Swans ( .EXO File : LEMFLSE )
+ 
+      Lemmings - 20 - Failure ( File : .EXO LEMFAEX )
+      Lemmings - 19 - Success ( File : .EXO LEMSUEX )
+ 
+Could you take a look at the .EXO files in the .SSD file? Some play their tune once only, after which the player seems to jump to play (or attempt to play) whatever is stored at memory location &A000. Can you modify the .EXO files so that all six files cycle continuously, the first four with no gap in sound between cycles, and the files that play the ‘failure’ and ‘success’ ditties with a gap of a few seconds between cycles? I can use a timed delay loop to ensure the ‘failure’ and ‘success’ ditties are played only once.
+ 
+ 
+Thank you,
+ 
+ 
+Andrew.
