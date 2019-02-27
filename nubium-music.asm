@@ -26,6 +26,7 @@ MACRO RESTORE_BANK
 ENDMACRO
 
 ORG &90
+GUARD &A0
 
 .vgm_data_addr      SKIP 2
 .vgm_data_bank      SKIP 1
@@ -34,9 +35,8 @@ ORG &90
 INCLUDE "vgmplayer.h.asm"
 INCLUDE "exomiser.h.asm"
 
-.loop_pause         SKIP 1
-
 ORG &2A00
+GUARD &2D00
 
 .start
 
@@ -147,6 +147,8 @@ ORG &2A00
 .old_eventv
 JMP &FFFF
 
+.loop_pause         SKIP 1
+
 INCLUDE "exomiser.asm"
 INCLUDE "vgmplayer.asm"
 
@@ -155,4 +157,4 @@ INCLUDE "vgmplayer.asm"
 SAVE "PLAYER", start, end, init
 
 ;PUTFILE "music/Sonic The Hedgehog - 16 - Marble Zone (unused).raw.exo", "MUSIC", &A000, 0
-PUTFILE "music/exo/Lemmings - 10 - Dance of the Reed-Flutes.raw.exo", "MUSIC", &A000, 0
+;PUTFILE "music/exo/Lemmings - 10 - Dance of the Reed-Flutes.raw.exo", "MUSIC", &A000, 0
